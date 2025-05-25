@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  name     String
+  email    String?   @unique
+  password String
+  phone    String @unique
+  tickets  Ticket[]
+}
+
+model Bus {
+  id         Int    @id @default(autoincrement())
+  name       String
+  plate      String @unique
+  totalSeats Int
+  trips      Trip[]
+}
+
+model Trip {
+  id      Int      @id @default(autoincrement())
+  from    String
+  to      String
+  date    DateTime
+  price   Float
+  busId   Int
+  bus     Bus      @relation(fields: [busId], references: [id])
+  seats   Seat[]   
+  tickets Ticket[] // Relation field to Ticket (One-to-many)
+}
+
+model Ticket {
+  id             Int      @id @default(autoincrement())
+  userId         Int?     // Nullable user reference
+  tripId         Int
+  seatId         Int
+  createdAt      DateTime @default(now())
+
+  user           User?    @relation(fields: [userId], references: [id])
+  seat           Seat     @relation(fields: [seatId], references: [id])
+  trip           Trip     @relation(fields: [tripId], references: [id])
+
+  // Passenger details
+  name           String?
+  phone          String?
+  email          String?
+  boardingPoint  String?
+  droppingPoint  String?
+
+  // Optional additions
+  gender         String?   // e.g., 'Male', 'Female', 'Other'
+  age            Int?      // Passenger age
+  status         String?   // e.g., 'confirmed', 'cancelled'
+  paymentStatus  String?   // e.g., 'pending', 'paid', 'failed'
+  ticketNo String?
+  referenceID String?
+  paymentId String?
+}
+
+model Seat {
+  id      Int      @id @default(autoincrement())
+  number  String
+  tripId  Int      // Foreign key to Trip
+  trip    Trip     @relation(fields: [tripId], references: [id]) // Inverse relation to Trip
+  tickets Ticket[] // Relation field to Ticket (One-to-many)
+}

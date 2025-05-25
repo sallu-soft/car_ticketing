@@ -54,10 +54,10 @@ export default function Navbar({ user }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-blue-600 text-white px-6 py-4 shadow">
+    <nav className="text-blue-600 bg-white px-6 py-4 shadow-lg">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link href="/" className="text-xl font-bold">
-          <Image src={"/logo.png"} alt="logo" width="220" height="120" />
+          <Image src={"/cholon.png"} alt="logo" width="280" height="80" className="w-[180px] h-[70px] " />
         </Link>
 
         {/* Mobile menu toggle button */}

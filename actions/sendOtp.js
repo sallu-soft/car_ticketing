@@ -5,9 +5,9 @@ import { otpStore } from "@/lib/otpStore"
 
 export async function sendOtp(formData) {
   let phone = normalizePhone(formData.get('phone'))
-
+  console.log(phone)
   const otp = Math.floor(100000 + Math.random() * 900000).toString()
-  const message = `Your OTP is ${otp}`
+  const message = `চলন \n Your OTP is ${otp}`
 
   const smsUrl = `http://bulksmsbd.net/api/smsapi?api_key=${process.env.NEXT_PUBLIC_SMS_API_KEY}&type=text&number=${phone}&senderid=${process.env.NEXT_PUBLIC_SMS_SENDER_ID}&message=${encodeURIComponent(message)}`
 

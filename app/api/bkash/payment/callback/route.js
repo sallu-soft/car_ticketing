@@ -254,6 +254,7 @@ export async function GET(req) {
         data.transactionStatus === "Completed"
       ) {
         // Update tickets as paid/confirmed
+        const amount = data.amount;
         await prisma.ticket.updateMany({
           where: { referenceID },
           data: {
@@ -319,7 +320,7 @@ export async function GET(req) {
         // Send 1 SMS per phone
         for (const [phone, info] of Object.entries(grouped)) {
           const seatList = info.seatNumbers.join(", ");
-          const message = `✅ টিকিট #${info.ticketNo} নিশ্চিত করা হয়েছে\n🪑 আসন: ${seatList}\n🚌 বাস: ${info.busName} (${info.busPlate})\n📍 রুট: ${info.from} ➜ ${info.to}\n🕓 যাত্রা: ${info.date}\n💳 পেমেন্ট আইডি: ${paymentID}\n💰 মোট: ৳${info.totalPrice}`;
+          const message = `চলন \n✅ টিকিট #${info.ticketNo} নিশ্চিত করা হয়েছে\n🪑 আসন: ${seatList}\n🚌 বাস: ${info.busName} (${info.busPlate})\n📍 রুট: ${info.from} ➜ ${info.to}\n🕓 যাত্রা: ${info.date}\n💳 পেমেন্ট আইডি: ${paymentID}\n💰 মোট: ৳${amount}`;
 
 
           await sendSms(phone, message);

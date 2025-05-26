@@ -239,7 +239,7 @@ export default function TripClient({ trip, user, userTickets }) {
                     <input
                       id="fullName"
                       type="text"
-                      placeholder="Full Name"
+                      placeholder="আপনার সম্পুর্ন নাম"
                       className="p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
                       value={passenger.name}
                       onChange={(e) =>
@@ -258,7 +258,7 @@ export default function TripClient({ trip, user, userTickets }) {
                     <input
                       id="phoneNumber"
                       type="text"
-                      placeholder="Mobile Number"
+                      placeholder="মোবাইল নম্বর"
                       className="p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
                       value={passenger.phone}
                       onChange={(e) =>

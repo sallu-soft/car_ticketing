@@ -54,7 +54,7 @@ export default function Navbar({ user }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="text-blue-600 bg-white px-6 py-4 shadow-lg">
+    <nav className="text-blue-600 bg-white px-6 py-4 shadow-xl border-b border-orange-300">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link href="/" className="text-xl font-bold">
           <Image src={"/cholon.png"} alt="logo" width="280" height="80" className="w-[180px] h-[70px] " />
@@ -97,9 +97,9 @@ export default function Navbar({ user }) {
           <Link href="/trips" className="hover:underline">
             ট্রিপসমূহ
           </Link>
-          <Link href="/admin" className="hover:underline">
+          {/* <Link href="/admin" className="hover:underline">
             অ্যাডমিন
-          </Link>
+          </Link> */}
 
           {user?.id ? (
             <>

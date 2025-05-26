@@ -20,7 +20,7 @@ const SearchBox = ({ toList, fromList }) => {
       onSubmit={handleSearch}
       className="space-y-6 w-full md:w-[400px] bg-white shadow-lg rounded-xl p-6 border border-gray-200"
     >
-      <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">🔍 বাস সার্চ করুন</h2>
+      <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">🔍 গাড়ি সার্চ করুন</h2>
 
       {/* From field */}
       <div>

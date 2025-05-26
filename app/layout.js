@@ -29,7 +29,9 @@ export default async function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       ><Navbar user={currentUser}/>
+      <div className="bg-gray-50 min-h-[80vh]">
         {children}
+        </div>
         <Toaster position="top-right" />
       </body>
     </html>

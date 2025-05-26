@@ -41,7 +41,7 @@ export default async function Home() {
     },
   });
   return (
-    <main className="">
+    <main className="bg-gray-50">
       
      <div className="flex flex-col md:flex-row w-full md:w-[80%] gap-10 mx-auto items-center justify-center h-[65vh] px-4">
   <SearchBox toList={toList} fromList={fromList} />

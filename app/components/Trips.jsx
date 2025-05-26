@@ -41,7 +41,7 @@ export default async function Trips() {
 
           return (
             <li key={trip.id}>
-              <div className="bg-blue-50 p-4 rounded shadow">
+              <div className="bg-blue-50 text-black p-4 rounded shadow">
               
                 <p className="bg-orange-600 mb-2 px-3 rounded-md text-white w-fit">
                   {trip.from} - {trip.to}

@@ -133,28 +133,30 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Register</h2>
+    <>
+    <div className="max-w-md mx-auto h-[80vh] flex justify-center items-center ">
+      <div className=" p-6  rounded shadow bg-white">
+      <h2 className="text-2xl font-bold mb-4 text-black">Register</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
-          placeholder="Name"
+          placeholder="সম্পুর্ন নাম"
           required
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-black"
         />
         <input
           type="text"
-          placeholder="Phone"
+          placeholder="মোবাইল নাম"
           required
           value={form.phone}
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-black"
         />
         {!otpSent && (
           <button type="button" onClick={handleSendOtp} className="w-full bg-blue-600 text-white py-2 rounded">
-            Send OTP
+            ওটিপি পাঠান
           </button>
         )}
         {otpSent && !otpVerified && (
@@ -167,28 +169,28 @@ export default function RegisterPage() {
               className="w-full p-2 border rounded"
             />
             <button type="button" onClick={handleVerifyOtp} className="w-full bg-green-600 text-white py-2 rounded">
-              Verify OTP
+            ওটিপি যাচাই করুন
             </button>
           </>
         )}
         <input
           type="email"
-          placeholder="Email"
+          placeholder="ইমেইল"
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
-          className="w-full p-2 border rounded"
+          className="w-full text-black p-2 border rounded"
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="পাসওয়ার্ড"
           value={form.password}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border text-black rounded"
         />
-        <button type="submit" className="w-full bg-black text-white py-2 rounded">
-          Register
+        <button type="submit" className="w-full bg-orange-600 text-white py-2 rounded">
+          রেজিস্টার
         </button>
       </form>
-    </div>
+    </div></div></>
   )
 }

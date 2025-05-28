@@ -191,7 +191,7 @@ export default function TripClient({ trip, user, userTickets }) {
           </div> */}
           <div className="grid grid-cols-4 gap-2 justify-center items-center w-fit mx-auto">
            
-            <div className="col-span-1">{renderSeat("P")}</div>
+            <div className="col-span-1 text-black">{renderSeat("P")}</div>
             <div className="col-span-2"></div>
             <div className="flex items-center py-2 justify-center bg-gray-200 rounded p-4 flex-col">
               D
@@ -240,7 +240,7 @@ export default function TripClient({ trip, user, userTickets }) {
                       id="fullName"
                       type="text"
                       placeholder="আপনার সম্পুর্ন নাম"
-                      className="p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="p-3 border text-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
                       value={passenger.name}
                       onChange={(e) =>
                         setPassenger({ ...passenger, name: e.target.value })
@@ -259,7 +259,7 @@ export default function TripClient({ trip, user, userTickets }) {
                       id="phoneNumber"
                       type="text"
                       placeholder="মোবাইল নম্বর"
-                      className="p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="p-3 border rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                       value={passenger.phone}
                       onChange={(e) =>
                         setPassenger({ ...passenger, phone: e.target.value })

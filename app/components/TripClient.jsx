@@ -193,7 +193,7 @@ export default function TripClient({ trip, user, userTickets }) {
            
             <div className="col-span-1 text-black">{renderSeat("P")}</div>
             <div className="col-span-2"></div>
-            <div className="flex items-center py-2 justify-center bg-gray-200 rounded p-4 flex-col">
+            <div className="flex items-center py-2 justify-center text-black bg-gray-200 rounded p-4 flex-col">
               D
               <PiSteeringWheelFill className="text-5xl text-[#f57192]" />
             </div>
@@ -305,80 +305,18 @@ export default function TripClient({ trip, user, userTickets }) {
             disabled={isLoading}
             className={`w-full py-3 px-4 rounded-md text-white font-semibold transition ${
               isLoading
-                ? "bg-emerald-300 cursor-not-allowed"
-                : "bg-emerald-600 hover:bg-emerald-700"
+                ? "bg-orange-300 cursor-not-allowed"
+                : "bg-orange-600 hover:bg-orange-700 cursor-pointer"
             }`}
           >
-            {isLoading ? "Booking..." : "সীট বুক করুন"}
+            {isLoading ? "বুকিং..." : "সীট বুক করুন"}
           </button>
         </div>
       </div>
 
-      {/* User Tickets Section */}
+     
       {/* {userTickets?.length > 0 && user?.id && (
-        <div className="bg-white p-4 rounded-lg shadow-md border mt-6 mx-4 max-w-7xl overflow-x-auto">
-          <h4 className="text-lg font-semibold mb-4 text-gray-800">
-            Your Booked Tickets
-          </h4>
-
-          <div className="w-full min-w-[600px]">
-            <table className="w-full text-sm text-left text-gray-700 border">
-              <thead className="bg-gray-100 text-xs uppercase text-gray-600">
-                <tr>
-                  <th className="px-4 py-2 border">Route</th>
-                  <th className="px-4 py-2 border">Bus</th>
-                  <th className="px-4 py-2 border">Seat Number</th>
-                  <th className="px-4 py-2 border">Status</th>
-                  <th className="px-4 py-2 border">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {userTickets.map((ticket) => (
-                  <tr key={ticket.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-2 border">
-                      {ticket.trip?.from} - {ticket.trip?.to}
-                    </td>
-                    <td className="px-4 py-2 border">
-                      {ticket.trip?.bus?.name} ({ticket.trip?.bus?.plate})
-                    </td>
-                    <td className="px-4 py-2 border">
-                      {ticket.seat?.number || "N/A"}
-                    </td>
-                    <td className="px-4 py-2 border capitalize">
-                      {ticket.status}
-                    </td>
-                    <td className="px-4 py-2 border">
-                      {ticket.status === "booked" ? (
-                        // <form action={confirmTicketAction}>
-                        <>
-                          <input
-                            type="hidden"
-                            name="ticketId"
-                            value={ticket.id}
-                          />
-                          <button
-                            onClick={()=>handlePayment(ticket.trip.price)}
-                            disabled={isPending}
-                            className="bg-pink-600 text-white px-4 py-2 rounded"
-                          >
-                            {isPending
-                              ? "Redirecting to bKash..."
-                              : "Pay with bKash"}
-                          </button>
-                          </>
-                      ) : (
-                        <span className="text-gray-400 text-xs">No action</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )} */}
-      {userTickets?.length > 0 && user?.id && (
-        <table className="min-w-full border-collapse border border-gray-300">
+        <table className="min-w-full text-black border-collapse border border-gray-300">
           <thead className="bg-gray-100">
             <tr>
               <th className="border px-4 py-2 text-left">Route</th>
@@ -426,7 +364,60 @@ export default function TripClient({ trip, user, userTickets }) {
             })}
           </tbody>
         </table>
-      )}
+      )} */}
+      {userTickets?.length > 0 && user?.id && (
+  <div className="overflow-x-auto w-full mt-4">
+    <table className="min-w-full text-sm text-black border-collapse border border-gray-300">
+      <thead className="bg-gray-100">
+        <tr>
+          <th className="border px-4 py-2 text-left whitespace-nowrap">Route</th>
+          <th className="border px-4 py-2 text-left whitespace-nowrap">Bus</th>
+          <th className="border px-4 py-2 text-left whitespace-nowrap">Seats</th>
+          <th className="border px-4 py-2 text-left whitespace-nowrap">Status</th>
+          <th className="border px-4 py-2 text-left whitespace-nowrap">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {groupedTickets?.map((group) => {
+          const ref = group[0].referenceID;
+          const trip = group[0].trip;
+          const bus = trip.bus;
+          const totalPrice = trip.price * group.length;
+
+          return (
+            <tr key={ref} className="hover:bg-gray-50">
+              <td className="border px-4 py-2">
+                {trip.from} - {trip.to}
+              </td>
+              <td className="border px-4 py-2">
+                {bus.name} ({bus.plate})
+              </td>
+              <td className="border px-4 py-2">
+                {group.map((t) => t.seat?.number).join(", ")}
+              </td>
+              <td className="border px-4 py-2 capitalize">
+                {group[0].status}
+              </td>
+              <td className="border px-4 py-2">
+                {group[0].status === "booked" ? (
+                  <button
+                    onClick={() => handleBkashPayment(ref, totalPrice)}
+                    className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition whitespace-nowrap"
+                  >
+                    Pay ৳{totalPrice} with bKash
+                  </button>
+                ) : (
+                  <span className="text-gray-400 text-sm">No action</span>
+                )}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+)}
+
     </>
   );
 }

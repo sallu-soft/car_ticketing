@@ -49,7 +49,7 @@ export default async function TripPage({ params }) {
   </div>
 
   <div className="text-center bg-orange-700 py-3 rounded text-lg font-semibold text-gray-100">
-    🎫 টিকিটের মূল্য: {trip.price} টাকা
+    🎫 টিকিটের মূল্য: {trip.price.toLocaleString('bn-BD')} টাকা
   </div>
 
 

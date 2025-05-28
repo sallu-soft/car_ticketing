@@ -4,14 +4,11 @@ import Link from 'next/link';
 export default async function Trips() {
   const now = new Date();
 
-  const trips = (await getAllTrips()).filter(trip => {
-    const tripDateTime = new Date(trip.date);
-    return trip.availableSeats > 0 && tripDateTime > now;
-  });
+  const trips = await getAllTrips();
 
   return (
     <main className="p-6">
-      <h1 className="text-2xl font-bold mb-4 text-black">Available Trips</h1>
+      <h1 className="text-2xl font-bold mb-4 text-black">ট্রিপসমূহ</h1>
       <ul className="grid gap-4 md:grid-cols-3 grid-col-1 lg:grid-cols-4">
         {trips.map((trip) => {
           const dateObj = new Date(trip.date);

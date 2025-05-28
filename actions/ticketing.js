@@ -180,68 +180,7 @@ export async function getBuses() {
  
 
 
-// export async function bookSeat(formData) {
-//   const tripIdRaw = formData.get('tripId');
-//   const seatIdsRaw = formData.get('seatIds');
-//   const passengerRaw = formData.get('passenger');
-//   const userId = formData.get('userId');
-//   const userIdInt = JSON.parse(userId)
-//   // Parse tripId
-//   const tripId = Number(tripIdRaw);
-//   if (isNaN(tripId) || tripId <= 0) {
-//     throw new Error('Invalid trip ID.');
-//   }
 
-//   // Parse seatIds
-//   let seatIds = [];
-//   try {
-//     const parsed = JSON.parse(seatIdsRaw);
-//     seatIds = Array.isArray(parsed) ? parsed.map(Number) : [Number(parsed)];
-//   } catch {
-//     throw new Error('Seat IDs are invalid or missing.');
-//   }
-
-//   // Parse single passenger data
-//   let passenger;
-//   try {
-//     passenger = JSON.parse(passengerRaw);
-//   } catch {
-//     throw new Error('Invalid passenger data.');
-//   }
-
-//   // Check for existing bookings
-//   const existingTickets = await prisma.ticket.findMany({
-//     where: {
-//       tripId,
-//       seatId: { in: seatIds }
-//     }
-//   });
-
-//   if (existingTickets.length > 0) {
-//     const taken = existingTickets.map(t => t.seatId).join(', ');
-//     throw new Error(`Seats already booked: ${taken}`);
-//   }
-//   const ticketNo = `T-${Date.now().toString().slice(6, 10)}-${Math.floor(Math.random() * 10000)}`;
-//   // Build ticket data for each seat
-//   const ticketsData = seatIds.map(seatId => ({
-//     tripId,
-//     seatId,
-//     userId:userIdInt,
-//     status:"booked",
-//     name: passenger.name,
-//     phone: passenger.phone,
-//     email: passenger.email || null,
-//     boardingPoint: passenger.boardingPoint || null,
-//     droppingPoint: passenger.droppingPoint || null,
-//     ticketNo
-//   }));
-
-//   // Create tickets
-//   await prisma.ticket.createMany({ data: ticketsData });
-
-//   // Revalidate page
-//   revalidatePath(`/bus/${tripId}`);
-// }
 
 export async function bookSeat(formData) {
   const tripIdRaw = formData.get('tripId');
@@ -314,8 +253,48 @@ export async function bookSeat(formData) {
 
   revalidatePath(`/bus/${tripId}`);
 }
+  // export async function getAllTrips() {
+  //   const trips = await prisma.trip.findMany({
+  //     include: {
+  //       bus: true,
+  //       seats: {
+  //         include: {
+  //           tickets: true,
+  //         },
+  //       },
+  //     },
+  //     orderBy: {
+  //       date: 'asc',
+  //     },
+  //   });
+  
+  //   // Add availableSeats count to each trip
+  //   return trips.map((trip) => {
+  //     const unsoldSeats = trip.seats.filter((seat) => seat.tickets.length === 0).length;
+  
+  //     return {
+  //       ...trip,
+  //       availableSeats: unsoldSeats,
+  //     };
+  //   });
+  // }
+  
   export async function getAllTrips() {
+    const now = new Date();
+  
     const trips = await prisma.trip.findMany({
+      where: {
+        date: {
+          gt: now, // এখনকার সময়ের পরের ট্রিপগুলো আনো
+        },
+        seats: {
+          some: {
+            tickets: {
+              none: {}, // এমন সীট যেগুলো এখনো বিক্রি হয়নি
+            },
+          },
+        },
+      },
       include: {
         bus: true,
         seats: {
@@ -329,7 +308,7 @@ export async function bookSeat(formData) {
       },
     });
   
-    // Add availableSeats count to each trip
+    // Calculate available seats
     return trips.map((trip) => {
       const unsoldSeats = trip.seats.filter((seat) => seat.tickets.length === 0).length;
   
@@ -339,4 +318,3 @@ export async function bookSeat(formData) {
       };
     });
   }
-  

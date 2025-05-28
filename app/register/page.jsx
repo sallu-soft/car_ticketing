@@ -136,7 +136,7 @@ export default function RegisterPage() {
     <>
     <div className="max-w-md mx-auto h-[80vh] flex justify-center items-center ">
       <div className=" p-6  rounded shadow bg-white">
-      <h2 className="text-2xl font-bold mb-4 text-black">Register</h2>
+      <h2 className="text-2xl font-bold mb-4 text-black">রেজিস্টার অ্যাকাউন্ট</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"

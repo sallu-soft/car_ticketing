@@ -132,9 +132,9 @@ export default function Navbar({ user }) {
           <Link href="/trips" className="block hover:underline">
             ট্রিপসমূহ
           </Link>
-          <Link href="/admin" className="block hover:underline">
+          {/* <Link href="/admin" className="block hover:underline">
             অ্যাডমিন
-          </Link>
+          </Link> */}
 
           {user?.id ? (
             <>

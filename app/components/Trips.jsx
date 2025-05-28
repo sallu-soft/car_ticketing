@@ -2,7 +2,12 @@ import { getAllTrips } from '@/actions/ticketing';
 import Link from 'next/link';
 
 export default async function Trips() {
-  const trips = (await getAllTrips()).filter(trip => trip.availableSeats > 0);
+  const now = new Date();
+
+  const trips = (await getAllTrips()).filter(trip => {
+    const tripDateTime = new Date(trip.date);
+    return trip.availableSeats > 0 && tripDateTime > now;
+  });
 
   return (
     <main className="p-6">
@@ -35,31 +40,45 @@ export default async function Trips() {
           }
 
           // Format time in Bengali with custom period
-          const formattedTime = `${period} ${hour % 12 === 0 ? 12 : hour % 12}:${minute
+          const formattedTime = `${period} ${(hour % 12 === 0 ? 12 : hour % 12).toLocaleString('bn-BD')}:${minute
             .toString()
-            .padStart(2, '0')} টা`;
+            .padStart(2, '0')
+            .replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d])} টা`;
 
           return (
             <li key={trip.id}>
               <div className="bg-[#fbf5e9] border-orange-400 border text-black p-4 rounded shadow-lg">
               
-                <p className="bg-orange-600 mb-2 px-6 text-lg font-bold py-1 rounded-md text-white w-fit">
+                <p className="bg-orange-700 mb-2 px-6 text-lg font-bold py-1 rounded-md text-white w-fit">
                   {trip.from} - {trip.to}
                 </p>
-                <p>গাড়ি: {trip.bus?.name} ({trip.bus?.plate})</p>
-                <p>তারিখ: {formattedDate}</p>
-                <p>গাড়ি ছাড়ার সময়: {formattedTime}</p>
-                <p>সিট অবশিষ্ট: {trip.availableSeats} টি</p>
-                <div className="bg-[#FFF092] text-orange-600 font-bold border border-yellow-300 px-3 py-2 mt-3 rounded text-md  text-center">
-                  🎫 টিকিটের মূল্য: {trip.price} টাকা
+                {/* <p>গাড়িঃ {trip.bus?.name} ({trip.bus?.plate})</p>
+                <p>তারিখঃ {formattedDate.toLocaleString('bn-BD')}</p>
+                <p>গাড়ি ছাড়ার সময়ঃ {formattedTime}</p>
+                <p>সিট অবশিষ্টঃ {trip.availableSeats.toLocaleString('bn-BD')} টি</p> */}
+                <div className="grid grid-cols-[auto_1fr] gap-x-2">
+  <p className="">গাড়ি</p>
+  <p>ঃ {trip.bus?.name} ({trip.bus?.plate})</p>
+
+  <p className="">তারিখ</p>
+  <p>ঃ {formattedDate.toLocaleString('bn-BD')}</p>
+
+  <p className="">গাড়ি ছাড়ার সময়</p>
+  <p>ঃ {formattedTime}</p>
+
+  <p className="">সিট অবশিষ্ট</p>
+  <p>ঃ {trip.availableSeats.toLocaleString('bn-BD')} টি</p>
+</div>
+                <div className="bg-[#FFF092] text-black font-bold border border-yellow-300 px-3 py-2 mt-3 rounded text-md  text-center">
+                  🎫 টিকিটের মূল্যঃ {trip.price.toLocaleString('bn-BD')} টাকা
                 </div>
                 
                 <div className="flex justify-center gap-2 mt-2">
                   <Link
                     href={`/bus/${trip?.id}`}
-                    className="px-6 py-2 bg-[#ED5503] text-white rounded"
+                    className="px-6 py-2 bg-orange-700 text-white rounded"
                   >
-                    বুকিং
+                    বুকিং করুন
                   </Link>
                 </div>
               </div>

@@ -24,7 +24,7 @@ const SearchBox = ({ toList, fromList }) => {
 
       {/* From field */}
       <div>
-        <label htmlFor="from" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="from" className="block text-md font-medium text-gray-700 mb-1">
           যাত্রার স্থান
         </label>
         <select
@@ -46,7 +46,7 @@ const SearchBox = ({ toList, fromList }) => {
 
       {/* To field */}
       <div>
-        <label htmlFor="to" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="to" className="block text-md font-medium text-gray-700 mb-1">
           গন্তব্য
         </label>
         <select
@@ -68,7 +68,7 @@ const SearchBox = ({ toList, fromList }) => {
 
       {/* Date field */}
       <div>
-        <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="date" className="block text-md font-medium text-gray-700 mb-1">
           যাত্রার তারিখ
         </label>
         <input
@@ -83,9 +83,9 @@ const SearchBox = ({ toList, fromList }) => {
 
       <button
         type="submit"
-        className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition"
+        className="w-full bg-[#FFF092] hover:bg-yellow-400 cursor-pointer text-black font-semibold py-2 rounded-md transition"
       >
-        🚌 বাস খুঁজুন
+        🚌 গাড়ি খুঁজুন
       </button>
     </form>
   );

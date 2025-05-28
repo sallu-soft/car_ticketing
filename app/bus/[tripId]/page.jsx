@@ -25,7 +25,7 @@ export default async function TripPage({ params }) {
     },
   });
   return (
-    <main className="p-6 max-w-[1000px] mx-auto">
+    <main className="p-2 md:p-6 max-w-[1000px] mx-auto">
       <h2 className="text-2xl font-bold text-black mb-4 text-center">
     {trip.bus?.name} ({trip.bus?.plate})
   </h2>
@@ -48,7 +48,7 @@ export default async function TripPage({ params }) {
     </div>
   </div>
 
-  <div className="text-center bg-orange-600 py-3 rounded text-lg font-semibold text-gray-100">
+  <div className="text-center bg-orange-700 py-3 rounded text-lg font-semibold text-gray-100">
     🎫 টিকিটের মূল্য: {trip.price} টাকা
   </div>
 

@@ -32,7 +32,7 @@ const SearchBox = ({ toList, fromList }) => {
           name="from"
           value={from}
           onChange={(e) => setFrom(e.target.value)}
-          className="border border-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="border text-black border-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           required
         >
           <option value="">স্থান নির্বাচন করুন</option>
@@ -54,7 +54,7 @@ const SearchBox = ({ toList, fromList }) => {
           name="to"
           value={to}
           onChange={(e) => setTo(e.target.value)}
-          className="border border-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="border text-black border-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           required
         >
           <option value="">গন্তব্য নির্বাচন করুন</option>
@@ -76,7 +76,7 @@ const SearchBox = ({ toList, fromList }) => {
           id="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className="border border-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="border border-gray-300 text-black rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           required
         />
       </div>

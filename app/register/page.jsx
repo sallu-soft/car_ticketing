@@ -166,7 +166,7 @@ export default function RegisterPage() {
               placeholder="Enter OTP"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded text-black"
             />
             <button type="button" onClick={handleVerifyOtp} className="w-full bg-green-600 text-white py-2 rounded">
             ওটিপি যাচাই করুন

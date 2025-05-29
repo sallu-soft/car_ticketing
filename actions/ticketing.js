@@ -285,12 +285,12 @@ export async function bookSeat(formData) {
     const trips = await prisma.trip.findMany({
       where: {
         date: {
-          gt: now, // এখনকার সময়ের পরের ট্রিপগুলো আনো
+          gt: now, 
         },
         seats: {
           some: {
             tickets: {
-              none: {}, // এমন সীট যেগুলো এখনো বিক্রি হয়নি
+              none: {}, 
             },
           },
         },
@@ -315,6 +315,54 @@ export async function bookSeat(formData) {
       return {
         ...trip,
         availableSeats: unsoldSeats,
+      };
+    });
+  }
+
+  export async function getSearchedTrips(from, to, inputDate) {
+    const now = new Date();
+  
+    // Optional date filtering logic
+    const dateFilter = inputDate
+      ? {
+          gte: new Date(inputDate),
+          lt: new Date(new Date(inputDate).getTime() + 24 * 60 * 60 * 1000), // next day
+        }
+      : { gt: now }; // fallback to future trips only if no date provided
+  
+    const trips = await prisma.trip.findMany({
+      where: {
+        from: from ? { contains: from, mode: "insensitive" } : undefined,
+        to: to ? { contains: to, mode: "insensitive" } : undefined,
+        date: dateFilter,
+        seats: {
+          some: {
+            tickets: {
+              none: {},
+            },
+          },
+        },
+      },
+      include: {
+        bus: true,
+        seats: {
+          include: {
+            tickets: true,
+          },
+        },
+      },
+      orderBy: {
+        date: "asc",
+      },
+    });
+  
+    // Add availableSeats count
+    return trips.map((trip) => {
+      const availableSeats = trip.seats.filter((seat) => seat.tickets.length === 0).length;
+  
+      return {
+        ...trip,
+        availableSeats,
       };
     });
   }

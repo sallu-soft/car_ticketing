@@ -59,13 +59,13 @@ export default function Navbar({ user }) {
 
       {/* Helpline (always visible) */}
       <div className="w-full text-center text-sm md:text-lg font-semibold text-orange-700 md:w-auto">
-        হেল্প লাইন: <span className="font-bold">01776105863</span>
+        হেল্প লাইন: <Link href="https://wa.me/8801776105863" target="_blank" rel="noopener noreferrer" className="font-bold">01776-105863</Link> <span className="text-emerald-500">(Whats app)</span>
       </div>
 
       {/* Desktop menu */}
       <div className="hidden md:flex space-x-4 items-center">
-        <Link href="/" className="hover:underline">হোম</Link>
-        <Link href="/trips" className="hover:underline">ট্রিপসমূহ</Link>
+        
+        
 
         {user?.id ? (
           <>
@@ -82,16 +82,18 @@ export default function Navbar({ user }) {
             </form>
           </>
         ) : (
-          <Link href="/login" className="hover:underline">লগইন</Link>
+          <div className="flex gap-x-4 items-center">
+            <Link href="/register" className="hover:underline">রেজিস্টার</Link>
+          <Link href="/login" className=" bg-orange-600 px-6 py-2 text-white rounded-lg">লগইন</Link>
+          </div>
         )}
       </div>
     </div>
 
     {/* Mobile dropdown menu */}
     {menuOpen && (
-      <div className="md:hidden mt-3 space-y-3 px-2 text-center">
-        <Link href="/" className="block hover:underline">হোম</Link>
-        <Link href="/trips" className="block hover:underline">ট্রিপসমূহ</Link>
+      <div className="md:hidden mt-3 space-y-3 px-2 flex flex-col text-center">
+        
 
         {user?.id ? (
           <>
@@ -108,7 +110,10 @@ export default function Navbar({ user }) {
             </form>
           </>
         ) : (
-          <Link href="/login" className="block hover:underline">লগইন</Link>
+          <div className="flex gap-x-5 items-center justify-center">
+          <Link href="/register" className="hover:underline">রেজিস্টার</Link>
+          <Link href="/login" className=" bg-orange-600 px-4 py-2 text-white rounded-lg">লগইন</Link>
+          </div>
         )}
       </div>
     )}

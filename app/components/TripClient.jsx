@@ -85,13 +85,13 @@ export default function TripClient({ trip, user, userTickets }) {
       await bookSeat(formData);
       alert("Booking successful!");
       setSelectedSeats([]);
-      setPassenger({
-        name: "",
-        email: "",
-        phone: "",
-        boardingPoint: "",
-        droppingPoint: "",
-      });
+      // setPassenger({
+      //   name: "",
+      //   email: "",
+      //   phone: "",
+      //   boardingPoint: "",
+      //   droppingPoint: "",
+      // });
       setError(null);
     } catch (err) {
       setError(err.message || "Something went wrong.");
@@ -315,66 +315,18 @@ export default function TripClient({ trip, user, userTickets }) {
       </div>
 
      
-      {/* {userTickets?.length > 0 && user?.id && (
-        <table className="min-w-full text-black border-collapse border border-gray-300">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border px-4 py-2 text-left">Route</th>
-              <th className="border px-4 py-2 text-left">Bus</th>
-              <th className="border px-4 py-2 text-left">Seats</th>
-              <th className="border px-4 py-2 text-left">Status</th>
-              <th className="border px-4 py-2 text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {groupedTickets?.map((group) => {
-              const ref = group[0].referenceID;
-              const trip = group[0].trip;
-              const bus = trip.bus;
-              const totalPrice = trip.price * group.length;
-
-              return (
-                <tr key={ref} className="hover:bg-gray-50">
-                  <td className="border px-4 py-2">
-                    {trip.from} - {trip.to}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {bus.name} ({bus.plate})
-                  </td>
-                  <td className="border px-4 py-2">
-                    {group.map((t) => t.seat?.number).join(", ")}
-                  </td>
-                  <td className="border px-4 py-2 capitalize">
-                    {group[0].status}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {group[0].status === "booked" ? (
-                      <button
-                        onClick={() => handleBkashPayment(ref, totalPrice)}
-                        className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition"
-                      >
-                        Pay ৳{totalPrice} with bKash
-                      </button>
-                    ) : (
-                      <span className="text-gray-400 text-sm">No action</span>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )} */}
+     
       {userTickets?.length > 0 && user?.id && (
   <div className="overflow-x-auto w-full mt-4">
     <table className="min-w-full text-sm text-black border-collapse border border-gray-300">
       <thead className="bg-gray-100">
         <tr>
-          <th className="border px-4 py-2 text-left whitespace-nowrap">Route</th>
-          <th className="border px-4 py-2 text-left whitespace-nowrap">Bus</th>
-          <th className="border px-4 py-2 text-left whitespace-nowrap">Seats</th>
-          <th className="border px-4 py-2 text-left whitespace-nowrap">Status</th>
+          <th className="border px-2 py-2 text-left whitespace-nowrap">Route</th>
+          <th className="border px-4 py-2 text-left whitespace-nowrap">Bus/Seats</th>
           <th className="border px-4 py-2 text-left whitespace-nowrap">Action</th>
+          {/* <th className="border px-4 py-2 text-left whitespace-nowrap">Seats</th> */}
+          <th className="border px-4 py-2 text-left whitespace-nowrap">Status</th>
+          
         </tr>
       </thead>
       <tbody>
@@ -386,23 +338,23 @@ export default function TripClient({ trip, user, userTickets }) {
 
           return (
             <tr key={ref} className="hover:bg-gray-50">
-              <td className="border px-4 py-2">
+              <td className="border px-1 py-1">
                 {trip.from} - {trip.to}
               </td>
-              <td className="border px-4 py-2">
+              <td className="border px-1 py-2">
                 {bus.name} ({bus.plate})
+                <br/>
+              	<p className="font-bold">{group.map((t) => t.seat?.number).join(", ")}</p>
               </td>
-              <td className="border px-4 py-2">
-                {group.map((t) => t.seat?.number).join(", ")}
-              </td>
-              <td className="border px-4 py-2 capitalize">
-                {group[0].status}
-              </td>
+              {/* <td className="border px-4 py-2">
+                
+              </td> */}
+             
               <td className="border px-4 py-2">
                 {group[0].status === "booked" ? (
                   <button
                     onClick={() => handleBkashPayment(ref, totalPrice)}
-                    className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition whitespace-nowrap"
+                    className="bg-pink-600 text-white px-1 py-2 rounded hover:bg-pink-700 transition whitespace-nowrap"
                   >
                     Pay ৳{totalPrice} with bKash
                   </button>
@@ -410,13 +362,18 @@ export default function TripClient({ trip, user, userTickets }) {
                   <span className="text-gray-400 text-sm">No action</span>
                 )}
               </td>
+              <td className="border px-4 py-2 capitalize">
+                {group[0].status}
+              </td>
             </tr>
           );
         })}
       </tbody>
     </table>
   </div>
-)}
+
+  
+  )}
 
     </>
   );

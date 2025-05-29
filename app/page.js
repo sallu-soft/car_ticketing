@@ -47,7 +47,7 @@ export default async function Home() {
   <SearchBox toList={toList} fromList={fromList} />
   <div className="hidden md:block">
     <Image
-      src="/car.png"
+      src="/Hiace.png"
       alt="বাস ব্যানার"
       width={800}
       height={400}

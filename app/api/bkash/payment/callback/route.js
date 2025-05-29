@@ -139,9 +139,13 @@ export async function GET(req) {
               from: ticket.trip?.from || "Unknown",
               to: ticket.trip?.to || "Unknown",
               date: new Date(ticket.trip.date).toLocaleString("en-BD", {
-                timeZone: "Asia/Dhaka",
-                dateStyle: "medium",
-                timeStyle: "short",
+                
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,
               }),
             };
           }

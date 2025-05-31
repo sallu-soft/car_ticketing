@@ -7,6 +7,7 @@ import { sendOtp } from "@/actions/sendOtp";
 import { MdEventSeat } from "react-icons/md";
 import { initiateBkashPayment } from "@/actions/bkash";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function TripClient({ trip, user, userTickets }) {
   const router = useRouter();
@@ -83,7 +84,7 @@ export default function TripClient({ trip, user, userTickets }) {
       formData.append("userId", JSON.stringify(user?.id || null));
 
       await bookSeat(formData);
-      alert("Booking successful!");
+      toast.success("Booking successful!");
       setSelectedSeats([]);
       // setPassenger({
       //   name: "",

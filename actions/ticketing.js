@@ -168,6 +168,9 @@ export async function getBuses() {
             },
           },
         },
+        // orderBy: {
+        //   createdAt: 'desc', // 👈 LIFO: latest updated trips come first
+        // },
       });
   
       return trips;
@@ -180,7 +183,23 @@ export async function getBuses() {
  
 
 
-
+  export async function deleteTrip(id) {
+    try {
+      // First delete related tickets
+      await prisma.ticket.deleteMany({ where: { tripId: id } });
+  
+      // Then delete related seats
+      await prisma.seat.deleteMany({ where: { tripId: id } });
+  
+      // Now delete the trip
+      await prisma.trip.delete({ where: { id } });
+  
+      return { success: true };
+    } catch (error) {
+      console.error("Delete failed", error);
+      return { success: false, error };
+    }
+  }
 
 export async function bookSeat(formData) {
   const tripIdRaw = formData.get('tripId');
@@ -318,7 +337,20 @@ export async function bookSeat(formData) {
       };
     });
   }
-
+  export async function updateTrip(tripData) {
+    await prisma.trip.update({
+      where: { id: tripData.id },
+      data: {
+        from: tripData.from,
+        to: tripData.to,
+        date: new Date(tripData.date),
+        price: parseFloat(tripData.price),
+        busId: tripData.busId,
+      },
+    });
+  
+    return { message: "Updated successfully" };
+  }
   export async function getSearchedTrips(from, to, inputDate) {
     const now = new Date();
   

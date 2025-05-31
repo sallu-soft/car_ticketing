@@ -1,6 +1,8 @@
+import { getUser } from "@/actions/authenticate";
+import Navbar from "../components/Navbar";
 // app/layout.js
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+
 import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
@@ -20,16 +22,18 @@ export const metadata = {
   },
   description: "যাত্রার নতুন সঙ্গী",
 };
-
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
+export default async function UserLayout({ children }) {
+    const currentUser = await getUser();
+    return (
+     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      ><Navbar user={currentUser}/>
+      <div className="bg-gray-50 min-h-[80vh]">
         {children}
-        <Toaster position="top-right" />
+        </div>
+        
       </body>
     </html>
-  );
-}
+    );
+  }

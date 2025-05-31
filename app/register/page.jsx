@@ -160,6 +160,7 @@ import { useRouter } from 'next/navigation'
 import { verifyOtp } from '@/actions/verifyOtp'
 import { sendOtp } from '@/actions/sendOtp'
 import { registerUser } from '@/actions/authenticate'
+import toast from 'react-hot-toast'
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ name: '', phone: '', email: '', password: '' })
@@ -202,11 +203,11 @@ export default function RegisterPage() {
     startTransition(async () => {
       const res = await verifyOtp(formData)
       if (res.success) {
-        alert('ওটিপি যাচাই সফল হয়েছে')
+        toast.success('ওটিপি যাচাই সফল হয়েছে')
         setOtpVerified(true)
         setVerifiedPhone(form.phone) // store verified phone
       } else {
-        alert(res.message)
+        toast.error(res.message)
       }
     })
   }

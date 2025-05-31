@@ -55,11 +55,17 @@ export default function LoginPage() {
           লগইন
         </button>
         
-  <p className="text-black">অ্যাকাউন্ট নেই?</p> <Link
+  <div className="flex items-center justify-between"><span className="text-black">অ্যাকাউন্ট নেই?</span> <Link
           href={"/register"}
           className="w-fit  text-orange-700 py-2 rounded"
         >রেজিস্টার করুন
-        </Link>
+        </Link></div>
+        <p className="text-sm text-center mt-2 text-black">
+  পাসওয়ার্ড ভুলে গেছেন?{" "}
+  <Link href="/forgot-password" className="text-blue-600 underline">
+    ওটিপি দিয়ে রিসেট করুন
+  </Link>
+</p>
       </form>
     </div>
     </div>

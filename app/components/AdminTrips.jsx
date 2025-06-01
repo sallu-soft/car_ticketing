@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import EditTripModal from './EditTripModal';
 import { deleteTrip } from '@/actions/ticketing';
+import { formatDate } from '@/lib/formatedDate';
 
 const AdminTrips = ({paginatedTrips, buses}) => {
     const [selectedTrip, setSelectedTrip] = useState(null);
@@ -53,7 +54,7 @@ const AdminTrips = ({paginatedTrips, buses}) => {
                   <td className="p-3">{trip.from}</td>
                   <td className="p-3">{trip.to}</td>
                   <td className="p-3">
-                    {new Date(trip.date).toLocaleString()}
+                    {formatDate(trip.date)}
                   </td>
                   <td className="p-3">{trip.bus?.name}</td>
                   <td className="p-3">{trip.price} ৳</td>
@@ -88,7 +89,7 @@ const AdminTrips = ({paginatedTrips, buses}) => {
                 {trip.from} → {trip.to}
               </div>
               <div className="text-xs text-gray-500 mb-2">
-                {new Date(trip.date).toLocaleString()}
+              {formatDate(trip.date)}
               </div>
               <div className="text-sm">
                 Bus: <span className="font-medium">{trip.bus?.name}</span>

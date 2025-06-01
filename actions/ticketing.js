@@ -22,59 +22,7 @@ export async function createBus(data) {
 
 
 
-// export async function createTrip(data) {
-//   const { from, to, date, price, busId } = data;
 
-//   try {
-//     const trip = await prisma.trip.create({
-//       data: {
-//         from,
-//         to,
-//         date: new Date(date),
-//         price: parseFloat(price),
-//         busId: parseInt(busId),
-//       },
-//     });
-
-//     const bus = await prisma.bus.findUnique({ where: { id: parseInt(busId) } });
-
-//     if (bus) {
-//       const totalSeats = bus.totalSeats;
-//       const seatsPerRow = 4;
-//       const rowCount = Math.ceil((totalSeats - 1) / seatsPerRow); // exclude the 'P' seat
-
-//       const seatData = [];
-
-//       // First seat is "P"
-//       seatData.push({
-//         number: "P",
-//         tripId: trip.id,
-//       });
-
-//       // Then add the remaining seats starting from A1, A2, ...
-//       for (let row = 0; row < rowCount; row++) {
-//         const rowLetter = String.fromCharCode(65 + row); // 'A', 'B', ...
-//         for (let seatNum = 1; seatNum <= seatsPerRow; seatNum++) {
-//           const seatIndex = row * seatsPerRow + seatNum;
-
-//           // We've already added 1 seat ("P"), so offset total check by -1
-//           if (seatIndex + 1 > totalSeats) break;
-
-//           seatData.push({
-//             number: `${rowLetter}${seatNum}`,
-//             tripId: trip.id,
-//           });
-//         }
-//       }
-
-//       await prisma.seat.createMany({ data: seatData });
-//     }
-
-//     return { success: true, message: 'Trip created successfully', trip };
-//   } catch (error) {
-//     return { success: false, message: 'Error creating trip' };
-//   }
-// }
 
 export async function createTrip(data) {
   const { from, to, date, price, busId } = data;
@@ -156,7 +104,7 @@ export async function getBuses() {
     });
   }
   
-    export async function getTripsWithTicketDetails() {
+    export async function getTripsWithTicketDetail() {
     try {
       const trips = await prisma.trip.findMany({
         include: {
@@ -179,8 +127,59 @@ export async function getBuses() {
       return [];
     }
   }
-
- 
+  export async function getTripsWithTicketDetails(page = 1, limit = 2) {
+    try {
+      const skip = (page - 1) * limit
+  
+      const [trips, totalCount] = await Promise.all([
+        prisma.trip.findMany({
+          skip,
+          take: limit,
+          include: {
+            bus: true,
+            seats: true,
+            tickets: {
+              include: {
+                seat: true,
+              },
+            },
+          },
+          orderBy: {
+            date: 'desc', // ✅ use an existing field like `date`
+          },
+        }),
+        prisma.trip.count(),
+      ])
+  
+      return {
+        trips,
+        totalCount,
+      }
+    } catch (error) {
+      console.error('Error fetching paginated trips:', error)
+      return {
+        trips: [],
+        totalCount: 0,
+      }
+    }
+  }
+  export async function updateBus(id, data) {
+    try {
+      const updatedBus = await prisma.bus.update({
+        where: { id },
+        data: {
+          name: data.name,
+          plate: data.plate,
+          totalSeats: data.totalSeats,
+        },
+      })
+  
+      return { success: true, updatedBus }
+    } catch (error) {
+      console.error('Update failed:', error)
+      return { success: false, error: 'আপডেট করতে সমস্যা হয়েছে' }
+    }
+  }
 
 
   export async function deleteTrip(id) {
@@ -198,6 +197,63 @@ export async function getBuses() {
     } catch (error) {
       console.error("Delete failed", error);
       return { success: false, error };
+    }
+  }
+  export async function deleteBus(id) {
+    try {
+      // Step 1: Get all trips for the bus
+      const trips = await prisma.trip.findMany({
+        where: { busId: id },
+        select: { id: true },
+      })
+  
+      const tripIds = trips.map((trip) => trip.id)
+  
+      // Step 2: Get all seats for those trips
+      const seats = await prisma.seat.findMany({
+        where: {
+          tripId: { in: tripIds },
+        },
+        select: { id: true },
+      })
+  
+      const seatIds = seats.map((seat) => seat.id)
+  
+      // Step 3: Delete tickets for those seats
+      if (seatIds.length > 0) {
+        await prisma.ticket.deleteMany({
+          where: {
+            seatId: { in: seatIds },
+          },
+        })
+      }
+  
+      // Step 4: Delete seats for those trips
+      if (tripIds.length > 0) {
+        await prisma.seat.deleteMany({
+          where: {
+            tripId: { in: tripIds },
+          },
+        })
+      }
+  
+      // Step 5: Delete trips
+      await prisma.trip.deleteMany({
+        where: { busId: id },
+      })
+  
+      // Step 6: Delete the bus
+      await prisma.bus.delete({
+        where: { id },
+      })
+  
+      return { success: true }
+    } catch (error) {
+      console.error('❌ Delete failed:', error)
+      return {
+        success: false,
+        error: 'বাস মুছে ফেলা যায়নি। কারণ এটি টিকিট বা অন্যান্য ডেটার সাথে যুক্ত।',
+      }
     }
   }
 
@@ -272,31 +328,7 @@ export async function bookSeat(formData) {
 
   revalidatePath(`/bus/${tripId}`);
 }
-  // export async function getAllTrips() {
-  //   const trips = await prisma.trip.findMany({
-  //     include: {
-  //       bus: true,
-  //       seats: {
-  //         include: {
-  //           tickets: true,
-  //         },
-  //       },
-  //     },
-  //     orderBy: {
-  //       date: 'asc',
-  //     },
-  //   });
   
-  //   // Add availableSeats count to each trip
-  //   return trips.map((trip) => {
-  //     const unsoldSeats = trip.seats.filter((seat) => seat.tickets.length === 0).length;
-  
-  //     return {
-  //       ...trip,
-  //       availableSeats: unsoldSeats,
-  //     };
-  //   });
-  // }
   
   export async function getAllTrips() {
     const now = new Date();

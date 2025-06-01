@@ -1,16 +1,21 @@
+import { getTripsWithTicketDetails } from '@/actions/ticketing'
+import TicketListGroupedByTrip from '@/app/components/TicketListGroupedByTrip'
 
+const TicketPage = async ({ searchParams }) => {
+  const page = parseInt(searchParams?.page) || 1
+  const limit = 2
 
-import { getTripsWithTicketDetails } from '@/actions/ticketing';
-import TicketListGroupedByTrip from '@/app/components/TicketListGroupedByTrip';
-import React from 'react';
+  const { trips, totalCount } = await getTripsWithTicketDetails(page, limit)
 
-const TicketPage =async () => {
-    const trips = await getTripsWithTicketDetails();
   return (
     <div>
-      <TicketListGroupedByTrip trips={trips} />
+      <TicketListGroupedByTrip
+        trips={trips}
+        currentPage={page}
+        totalPages={Math.ceil(totalCount / limit)}
+      />
     </div>
-  );
-};
+  )
+}
 
-export default TicketPage;
+export default TicketPage

@@ -1,7 +1,7 @@
 
 
+import BkashMessagePage from '@/app/components/BkashMessagePage';
 import { Suspense } from 'react';
-import BkashMessagePage from '../components/BkashMessagePage';
 
 export default function Page() {
   return (

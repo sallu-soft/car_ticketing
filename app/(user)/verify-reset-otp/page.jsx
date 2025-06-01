@@ -96,8 +96,8 @@
 //   )
 // }
 
+import VerifyResetOtpPage from '@/app/components/VerifyResetOtpPage';
 import { Suspense } from 'react';
-import VerifyResetOtpPage from '../components/VerifyResetOtpPage';
 
 
 export default function VerifyPage() {

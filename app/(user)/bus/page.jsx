@@ -1,5 +1,6 @@
+import Trips from '@/app/components/Trips'
 import React from 'react'
-import Trips from '../components/Trips'
+
 
 const AvailableTrips = () => {
   return (

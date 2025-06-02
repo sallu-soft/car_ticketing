@@ -3,7 +3,7 @@ import TicketListGroupedByTrip from '@/app/components/TicketListGroupedByTrip'
 
 const TicketPage = async ({ searchParams }) => {
   const page = parseInt(searchParams?.page) || 1
-  const limit = 2
+  const limit = 3
 
   const { trips, totalCount } = await getTripsWithTicketDetails(page, limit)
 

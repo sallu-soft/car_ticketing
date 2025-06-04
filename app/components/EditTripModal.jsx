@@ -1,6 +1,7 @@
 // components/EditTripModal.jsx
 'use client';
 import { updateTrip } from '@/actions/ticketing';
+import { formatDate, toDatetimeLocal } from '@/lib/formatedDate';
 import { useEffect, useState } from 'react'; //Create this server action
 
 export default function EditTripModal({ trip, buses, onClose, onUpdated }) {
@@ -42,7 +43,7 @@ export default function EditTripModal({ trip, buses, onClose, onUpdated }) {
           className="w-full border px-3 py-2 rounded"
           value={
             form.date
-              ? new Date(form.date).toISOString().slice(0, 16)
+              ? toDatetimeLocal(form.date)
               : ''
           }
           onChange={e => setForm({ ...form, date: e.target.value })}

@@ -8,7 +8,6 @@ import { MdEventSeat } from "react-icons/md";
 import { initiateBkashPayment } from "@/actions/bkash";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { io } from "socket.io-client";
 
 export default function TripClient({ trip, user, userTickets }) {
   const router = useRouter();
